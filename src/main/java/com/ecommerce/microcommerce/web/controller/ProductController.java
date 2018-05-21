@@ -43,7 +43,19 @@ public class ProductController {
     	
     	return result;
     }
-
+    
+    /*
+     * Partie 2 - Tri par ordre alphabétique
+     * 
+     * Dans l'énoncé de l'exercice, l'URI de la requête n'est pas mentionné,
+     * j'ai donc choisi moi-même le chemin.
+     */
+    @GetMapping(value = "/AdminProduits/Tri")
+    public List<Product> trierProduitsParOrdreAlphabetique() {
+    	List<Product> listeProduits = productDao.findAllByOrderByNom();
+    	
+    	return listeProduits;
+    }
 
 
     //Récupérer la liste des produits
