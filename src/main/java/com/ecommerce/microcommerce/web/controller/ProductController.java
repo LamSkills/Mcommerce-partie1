@@ -2,6 +2,7 @@ package com.ecommerce.microcommerce.web.controller;
 
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
+import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -92,8 +93,13 @@ public class ProductController {
     }
 
 
-
-
+    /*
+     * Partie 3 - Validation du prix de vente
+     * 
+     * J'ai commenté dans la classe Product l'annotation @Min vérifiant la condition
+     * du prix afin de vérifier que l'exception est bien levée.
+     */
+    
     //ajouter un produit
     @PostMapping(value = "/Produits")
 
@@ -103,6 +109,10 @@ public class ProductController {
 
         if (productAdded == null)
             return ResponseEntity.noContent().build();
+        
+        if (productAdded.getPrix() == 0) {
+        	throw new ProduitGratuitException("Le prix de vente ne peut être égal à 0 !");
+        }
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
